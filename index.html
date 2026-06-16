@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="kk" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storyboard Prompt Generator - Мұғалімдерге арналған құрал</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Fira Code for prompt view -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons for beautiful modern UI symbols -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth transitions for interactive elements */
+        .transition-all-300 {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Hide scrollbars but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Custom glowing card style */
+        .glow-brand {
+            box-shadow: 0 0 15px -3px rgba(99, 102, 241, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans h-full transition-colors duration-300">
+
+<div class="min-h-screen flex flex-col justify-between">
+    <!-- Header -->
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-brand-600 rounded-xl text-white shadow-md shadow-brand-500/20">
+                    <i data-lucide="layout" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-500 dark:from-brand-500 dark:to-indigo-400 bg-clip-text text-transparent">
+                        Storyboard Prompt Generator
+                    </h1>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">Мұғалімдер мен әдіскерлерге арналған әмбебап құрал</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- Theme Toggle -->
+                <button id="themeToggleBtn" onclick="toggleTheme()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all-300" title="Тақырыпты ауыстыру">
+                    <i data-lucide="sun" id="sunIcon" class="w-5 h-5 hidden dark:block"></i>
+                    <i data-lucide="moon" id="moonIcon" class="w-5 h-5 block dark:hidden"></i>
+                </button>
+                <a href="#quickGuide" class="hidden sm:flex items-center space-x-1 px-3 py-2 rounded-lg bg-brand-50 dark:bg-brand-950/40 text-brand-600 dark:text-brand-400 hover:bg-brand-100 dark:hover:bg-brand-950/60 font-medium text-sm transition-all-300">
+                    <i data-lucide="help-circle" class="w-4 h-4"></i>
+                    <span>Нұсқаулық</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Presets and Templates Section -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-2">
+                    <i data-lucide="sparkles" class="w-5 h-5 text-amber-500"></i>
+                    <h2 class="text-md font-semibold text-slate-700 dark:text-slate-300">Дайын шаблондар (жылдам жүктеу)</h2>
+                </div>
+                <span class="text-xs text-slate-400 dark:text-slate-500">Параметрлерді бір басумен баптау</span>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <button onclick="loadPreset('literatureStruct')" class="flex flex-col items-start p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-sm text-left transition-all-300 group">
+                    <span class="p-1 rounded bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 text-xs font-semibold mb-2 group-hover:scale-105 transition-transform">Әдебиет</span>
+                    <span class="font-medium text-sm text-slate-900 dark:text-slate-100">Шығарма құрылымы</span>
+                    <span class="text-xs text-slate-400 dark:text-slate-500 mt-1">6 кадр, Құрылымдық талдау</span>
+                </button>
+                <button onclick="loadPreset('silkRoad')" class="flex flex-col items-start p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-sm text-left transition-all-300 group">
+                    <span class="p-1 rounded bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 text-xs font-semibold mb-2 group-hover:scale-105 transition-transform">Тарих</span>
+                    <span class="font-medium text-sm text-slate-900 dark:text-slate-100">Ұлы Жібек жолы</span>
+                    <span class="text-xs text-slate-400 dark:text-slate-500 mt-1">8 кадр, Орта буын</span>
+                </button>
+                <button onclick="loadPreset('kazakhGrammar')" class="flex flex-col items-start p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-sm text-left transition-all-300 group">
+                    <span class="p-1 rounded bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 text-xs font-semibold mb-2 group-hover:scale-105 transition-transform">Қазақ тілі</span>
+                    <span class="font-medium text-sm text-slate-900 dark:text-slate-100">Септік жалғауларының жүйесі</span>
+                    <span class="text-xs text-slate-400 dark:text-slate-500 mt-1">5 кадр, Түсіндіру стилі</span>
+                </button>
+                <button onclick="loadPreset('readingLiteracy')" class="flex flex-col items-start p-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-brand-500 dark:hover:border-brand-500 hover:shadow-sm text-left transition-all-300 group">
+                    <span class="p-1 rounded bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 text-xs font-semibold mb-2 group-hover:scale-105 transition-transform">Оқу сауаттылығы</span>
+                    <span class="font-medium text-sm text-slate-900 dark:text-slate-100">Мәтіндегі ақпаратты ажырату</span>
+                    <span class="text-xs text-slate-400 dark:text-slate-500 mt-1">4 кадр, Сын тұрғысынан ойлау</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- Left Panel: Configurations (lg:col-span-5) -->
+            <form id="generatorForm" onsubmit="event.preventDefault();" class="lg:col-span-5 space-y-6">
+                
+                <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-5">
+                    <div class="flex items-center space-x-2 pb-4 border-b border-slate-100 dark:border-slate-700">
+                        <i data-lucide="sliders" class="w-5 h-5 text-brand-600"></i>
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white">Параметрлерді таңдаңыз</h3>
+                    </div>
+
+                    <!-- 1. Сториборд түрі -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 flex items-center justify-between">
+                            <span>1. Сториборд түрі</span>
+                            <span class="text-xs text-slate-400 font-normal">Жанрлық формат</span>
+                        </label>
+                        <select id="storyType" onchange="generatePrompt()" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300">
+                            <option value="story">Оқиға (Story Sequence)</option>
+                            <option value="creative">Шығармашылық (Creative Concept)</option>
+                            <option value="step" selected>Процесс (Step-by-Step)</option>
+                            <option value="explainer">Түсіндіру (Explainer)</option>
+                            <option value="comic">Комикс</option>
+                            <option value="infographic">Инфографика</option>
+                            <option value="character">Кейіпкер тарихы</option>
+                            <option value="compare">Салыстыру</option>
+                            <option value="timeline">Хронология (Timeline)</option>
+                            <option value="problem">Проблема → Шешім</option>
+                        </select>
+                    </div>
+
+                    <!-- 2. Визуалды стиль -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 flex items-center justify-between">
+                            <span>2. Визуалды стиль</span>
+                            <span class="text-xs text-slate-400 font-normal">Эстетика</span>
+                        </label>
+                        <select id="visualStyle" onchange="generatePrompt()" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300">
+                            <option value="minimalist" selected>Minimalist Educational</option>
+                            <option value="pixar">Pixar Style</option>
+                            <option value="disney">Disney Style</option>
+                            <option value="flat">Flat Illustration</option>
+                            <option value="cartoon">Cartoon</option>
+                            <option value="comic">Comic Book</option>
+                            <option value="watercolor">Watercolor</option>
+                            <option value="realistic">Realistic</option>
+                            <option value="render">3D Render</option>
+                            <option value="isometric">Isometric</option>
+                            <option value="handdrawn">Hand Drawn</option>
+                            <option value="modern_info">Modern Infographic</option>
+                            <option value="stem">STEM Educational</option>
+                            <option value="montessori">Montessori</option>
+                            <option value="cyberpunk">Cyberpunk</option>
+                            <option value="anime">Anime</option>
+                        </select>
+                    </div>
+
+                    <!-- 3. Формат -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 flex items-center justify-between">
+                            <span>3. Формат</span>
+                            <span class="text-xs text-slate-400 font-normal font-mono">Арақатынас</span>
+                        </label>
+                        <select id="format" onchange="generatePrompt()" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300">
+                            <option value="a4_portrait">A4 тік (Portrait)</option>
+                            <option value="a4_landscape">A4 көлденең (Landscape)</option>
+                            <option value="reels">9:16 TikTok/Reels</option>
+                            <option value="presentation">16:9 Презентация</option>
+                            <option value="instagram" selected>1:1 Instagram</option>
+                            <option value="social">4:5 Social Media</option>
+                            <option value="a3_portrait">A3 тік</option>
+                            <option value="a3_landscape">A3 көлденең</option>
+                        </select>
+                    </div>
+
+                    <!-- 4. Пән -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2 flex items-center justify-between">
+                            <span>4. Пән</span>
+                        </label>
+                        <select id="subject" onchange="handleSubjectChange()" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300">
+                            <option value="Қазақ тілі">Қазақ тілі</option>
+                            <option value="Әдебиет" selected>Әдебиет</option>
+                            <option value="Оқу сауаттылығы">Оқу сауаттылығы</option>
+                            <option value="Дүниетану">Дүниетану</option>
+                            <option value="Тарих">Тарих</option>
+                            <option value="География">География</option>
+                            <option value="Биология">Биология</option>
+                            <option value="Химия">Химия</option>
+                            <option value="Информатика">Информатика</option>
+                            <option value="Ағылшын тілі">Ағылшын тілі</option>
+                            <option value="custom">Еркін енгізу...</option>
+                        </select>
+                        <input type="text" id="customSubjectInput" oninput="generatePrompt()" placeholder="Пән атауын жазыңыз..." class="hidden mt-2 w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300" />
+                    </div>
+
+                    <!-- 5. Тақырып -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                            <span>5. Тақырып</span>
+                        </label>
+                        <input type="text" id="topicInput" oninput="generatePrompt()" value="Шығарманың композициялық құрылымы" placeholder="Мысалы: Күн жүйесі немесе Зат есімнің септелуі" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300" />
+                    </div>
+
+                    <!-- 6. Сынып -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                            <span>6. Сынып</span>
+                        </label>
+                        <select id="grade" onchange="generatePrompt()" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300">
+                            <option value="preschool">Мектепалды даярлық</option>
+                            <option value="primary">1–4 сынып</option>
+                            <option value="middle_5_6">5–6 сынып</option>
+                            <option value="middle_7_9" selected>7–9 сынып</option>
+                            <option value="high">10–11 сынып</option>
+                        </select>
+                    </div>
+
+                    <!-- 7. Кадр саны -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                            <span>7. Кадр саны</span>
+                        </label>
+                        <select id="framesCount" onchange="generatePrompt()" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300">
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6" selected>6</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+
+                    <!-- 8. Мәтін көлемі -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                            <span>8. Мәтін көлемі</span>
+                        </label>
+                        <select id="textVolume" onchange="generatePrompt()" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300">
+                            <option value="very_short">Өте қысқа (кілт сөздер)</option>
+                            <option value="short" selected>Қысқа (1-2 сөйлем)</option>
+                            <option value="medium">Орташа (кішірек абзац)</option>
+                            <option value="full">Толық (сипаттамаларымен бірге)</option>
+                        </select>
+                    </div>
+
+                    <!-- 9. Тіл -->
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                            <span>9. Тіл</span>
+                        </label>
+                        <select id="outputLang" onchange="generatePrompt()" class="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all-300">
+                            <option value="kaz" selected>Қазақша</option>
+                            <option value="rus">Орысша</option>
+                            <option value="eng">Ағылшынша</option>
+                        </select>
+                    </div>
+
+                    <!-- 10. Қосымша параметрлер -->
+                    <div class="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-700">
+                        <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">
+                            <span>10. Қосымша параметрлер</span>
+                        </label>
+                        
+                        <div class="space-y-2">
+                            <label class="flex items-start space-x-3 cursor-pointer group">
+                                <input type="checkbox" id="optCharacters" onchange="generatePrompt()" checked class="mt-1 rounded text-brand-600 focus:ring-brand-500 border-slate-300 dark:border-slate-600 dark:bg-slate-900 w-4 h-4">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-all-300">Кейіпкерлер болсын (Тұрақты образ)</span>
+                            </label>
+
+                            <label class="flex items-start space-x-3 cursor-pointer group">
+                                <input type="checkbox" id="optNumbered" onchange="generatePrompt()" checked class="mt-1 rounded text-brand-600 focus:ring-brand-500 border-slate-300 dark:border-slate-600 dark:bg-slate-900 w-4 h-4">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-all-300">Нөмірленген кадрлар</span>
+                            </label>
+
+                            <label class="flex items-start space-x-3 cursor-pointer group">
+                                <input type="checkbox" id="optArrows" onchange="generatePrompt()" checked class="mt-1 rounded text-brand-600 focus:ring-brand-500 border-slate-300 dark:border-slate-600 dark:bg-slate-900 w-4 h-4">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-all-300">Стрелкалармен/бағыттауыштармен байланыссын</span>
+                            </label>
+
+                            <label class="flex items-start space-x-3 cursor-pointer group">
+                                <input type="checkbox" id="optPrint" onchange="generatePrompt()" class="mt-1 rounded text-brand-600 focus:ring-brand-500 border-slate-300 dark:border-slate-600 dark:bg-slate-900 w-4 h-4">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-all-300">Баспаға дайын сапа (CMYK/300 DPI)</span>
+                            </label>
+
+                            <label class="flex items-start space-x-3 cursor-pointer group">
+                                <input type="checkbox" id="optTeacherGuide" onchange="generatePrompt()" class="mt-1 rounded text-brand-600 focus:ring-brand-500 border-slate-300 dark:border-slate-600 dark:bg-slate-900 w-4 h-4">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-all-300">Мұғалімге арналған әдістемелік нұсқаулық</span>
+                            </label>
+
+                            <label class="flex items-start space-x-3 cursor-pointer group">
+                                <input type="checkbox" id="optStudentGuide" onchange="generatePrompt()" class="mt-1 rounded text-brand-600 focus:ring-brand-500 border-slate-300 dark:border-slate-600 dark:bg-slate-900 w-4 h-4">
+                                <span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white transition-all-300">Оқушыға арналған тапсырма/нұсқаулық</span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+            <!-- Right Panel: Live Prompt & Interactive Preview (lg:col-span-7) -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <!-- Navigation Tabs (Prompt View vs Simulated Storyboard Mock) -->
+                <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden glow-brand">
+                    
+                    <div class="border-b border-slate-100 dark:border-slate-700 flex justify-between items-center px-4 bg-slate-50/50 dark:bg-slate-800/50">
+                        <div class="flex space-x-2">
+                            <button onclick="switchTab('prompt')" id="tabBtnPrompt" class="px-4 py-3.5 text-sm font-semibold border-b-2 border-brand-600 text-brand-600 dark:text-brand-400 flex items-center space-x-2 transition-all-300">
+                                <i data-lucide="terminal" class="w-4 h-4"></i>
+                                <span>Генерацияланған Промпт</span>
+                            </button>
+                            <button onclick="switchTab('visual')" id="tabBtnVisual" class="px-4 py-3.5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center space-x-2 transition-all-300">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                                <span>Визуалды нобайы (Preview)</span>
+                            </button>
+                        </div>
+
+                        <!-- Target Engine Filter for power users -->
+                        <div class="hidden sm:flex items-center space-x-1 py-2">
+                            <span class="text-[10px] text-slate-400 dark:text-slate-500 uppercase font-bold tracking-wider mr-1">Оңтайландыру:</span>
+                            <select id="engineSelector" onchange="generatePrompt()" class="text-xs bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 border-none rounded px-2 py-1 outline-none font-medium cursor-pointer transition-all-300">
+                                <option value="chatgpt">ChatGPT / Claude</option>
+                                <option value="midjourney">Midjourney v6</option>
+                                <option value="dalle">DALL-E 3</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- TAB 1: Generated Prompt Content -->
+                    <div id="tabContentPrompt" class="p-6 block">
+                        <div class="relative">
+                            <!-- Code Area with nice font styling -->
+                            <div class="bg-slate-950 text-slate-200 rounded-xl p-5 font-mono text-sm leading-relaxed overflow-x-auto border border-slate-800 select-all max-h-[500px] overflow-y-auto no-scrollbar" id="promptContainer">
+                                <!-- Prompt content inserted here dynamically -->
+                            </div>
+                            
+                            <!-- Overlay actions -->
+                            <div class="mt-4 flex flex-wrap gap-2 items-center justify-between">
+                                <div class="text-xs text-slate-500 dark:text-slate-400">
+                                    <span id="charCount">0</span> таңба | <span id="wordCount">0</span> сөз
+                                </div>
+                                <div class="flex space-x-2">
+                                    <!-- Download Button -->
+                                    <button onclick="downloadPrompt()" class="flex items-center space-x-2 px-3 py-2 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition-all-300" title="Промптты .txt форматында жүктеу">
+                                        <i data-lucide="download" class="w-4 h-4"></i>
+                                        <span>Жүктеу (.txt)</span>
+                                    </button>
+                                    <!-- Copy Button with dynamic state -->
+                                    <button onclick="copyPrompt()" id="copyBtn" class="flex items-center space-x-2 px-4 py-2 text-xs font-bold rounded-lg bg-brand-600 hover:bg-brand-700 text-white shadow-lg shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-95 transition-all-300">
+                                        <i data-lucide="copy" class="w-4 h-4"></i>
+                                        <span id="copyText">Көшіріп алу</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: Visual Storyboard Preview -->
+                    <div id="tabContentVisual" class="p-6 hidden">
+                        <div class="mb-4">
+                            <h4 class="font-bold text-slate-800 dark:text-white flex items-center space-x-2">
+                                <i data-lucide="layout-grid" class="w-4 h-4 text-brand-500"></i>
+                                <span>Сторибордтың құрылымдық нобайы</span>
+                            </h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Таңдалған кадр саны бойынша автоматты құрастырылған оқу материаланың құрылымы</p>
+                        </div>
+
+                        <!-- Grid representing the frame blocks dynamically based on user selections -->
+                        <div id="visualGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            <!-- Dynamic Cards Generated by JS -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Live Helper/Hint section -->
+                <div class="bg-gradient-to-r from-teal-50 to-emerald-50 dark:from-slate-850 dark:to-slate-800 border border-teal-200/50 dark:border-slate-700 rounded-2xl p-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="p-2 bg-teal-500 rounded-lg text-white">
+                            <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-teal-900 dark:text-teal-400 text-sm">Мұғалім кеңесі:</h4>
+                            <p class="text-xs text-teal-800 dark:text-slate-300 mt-1 leading-relaxed">
+                                Көшірілген дайын промптты <strong>ChatGPT, Claude, DALL-E немесе Midjourney</strong> сияқты кез келген заманауи жасанды интеллект чатына жіберіңіз. Ол сізге сабақты көрнекі етуге дайын, керемет дизайн схемасын толық мәтінімен жасап береді!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Quick Guide Section -->
+        <section id="quickGuide" class="mt-16 bg-white dark:bg-slate-800/80 rounded-2xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm scroll-mt-24">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center space-x-2">
+                <i data-lucide="book-open" class="w-5 h-5 text-brand-600"></i>
+                <span>Генераторды қалай тиімді қолдану керек?</span>
+            </h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2 text-brand-600 dark:text-brand-400 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-brand-50 dark:bg-brand-950 flex items-center justify-center text-xs">1</span>
+                        <span>Параметрлерді таңдаңыз</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Пәннің мазмұнына сәйкес келетін сториборд түрін, визуалды стильді және кадр санын көрсетіңіз. Күрделі тақырыптар үшін 6 немесе 8 кадрды таңдау ұсынылады.
+                    </p>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2 text-brand-600 dark:text-brand-400 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-brand-50 dark:bg-brand-950 flex items-center justify-center text-xs">2</span>
+                        <span>Промптты көшіріп алыңыз</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Экранның оң жағындағы автоматты түрде жаңартылып отыратын промпт мәтінін көріңіз. Оны бір батырмамен буферге көшіріп алыңыз немесе жүктеңіз.
+                    </p>
+                </div>
+
+                <div class="space-y-2">
+                    <div class="flex items-center space-x-2 text-brand-600 dark:text-brand-400 font-bold text-sm">
+                        <span class="w-6 h-6 rounded-full bg-brand-50 dark:bg-brand-950 flex items-center justify-center text-xs">3</span>
+                        <span>ЖИ-ге жүктеңіз</span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        Мәтінді Midjourney, ChatGPT немесе DALL-E жүйелеріне қойып, сабаққа қажетті көрнекі сапалы сызба-иллюстрацияларды жылдам алыңыз.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-6 mt-16 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+                © 2026 Storyboard Prompt Generator. Мұғалімдердің жұмысын жеңілдету үшін әзірленді.
+            </p>
+            <p class="text-[10px] text-slate-400 dark:text-slate-500">
+                Жасанды интеллект арқылы білім беру сапасын арттырыңыз.
+            </p>
+        </div>
+    </footer>
+</div>
+
+<!-- Copy Success Toast Message -->
+<div id="toast" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3 transition-all duration-300 z-50 pointer-events-none">
+    <div class="p-1 rounded bg-emerald-500 text-white dark:bg-emerald-100 dark:text-emerald-800">
+        <i data-lucide="check" class="w-4 h-4"></i>
+    </div>
+    <span class="text-xs font-semibold" id="toastMessage">Сәтті көшірілді!</span>
+</div>
+
+<script>
+    // App Presets Definition
+    const presets = {
+        literatureStruct: {
+            storyType: 'step',
+            visualStyle: 'minimalist',
+            format: 'reels',
+            subject: 'Әдебиет',
+            topic: 'Шығарманың композициялық құрылымы',
+            grade: 'middle_7_9',
+            framesCount: '6',
+            textVolume: 'short',
+            outputLang: 'kaz',
+            options: {
+                optCharacters: false,
+                optNumbered: true,
+                optArrows: true,
+                optPrint: true,
+                optTeacherGuide: false,
+                optStudentGuide: false
+            }
+        },
+        silkRoad: {
+            storyType: 'timeline',
+            visualStyle: 'handdrawn',
+            format: 'a4_landscape',
+            subject: 'Тарих',
+            topic: 'Ұлы Жібек жолы',
+            grade: 'middle_5_6',
+            framesCount: '8',
+            textVolume: 'medium',
+            outputLang: 'kaz',
+            options: {
+                optCharacters: true,
+                optNumbered: true,
+                optArrows: true,
+                optPrint: true,
+                optTeacherGuide: true,
+                optStudentGuide: false
+            }
+        },
+        kazakhGrammar: {
+            storyType: 'explainer',
+            visualStyle: 'flat',
+            format: 'instagram',
+            subject: 'Қазақ тілі',
+            topic: 'Септік жалғауларының жүйесі',
+            grade: 'primary',
+            framesCount: '5',
+            textVolume: 'short',
+            outputLang: 'kaz',
+            options: {
+                optCharacters: true,
+                optNumbered: true,
+                optArrows: false,
+                optPrint: false,
+                optTeacherGuide: false,
+                optStudentGuide: true
+            }
+        },
+        readingLiteracy: {
+            storyType: 'problem',
+            visualStyle: 'modern_info',
+            format: 'presentation',
+            subject: 'Оқу сауаттылығы',
+            topic: 'Мәтіннен негізгі ақпарат пен жанама ақпаратты ажырату',
+            grade: 'middle_7_9',
+            framesCount: '4',
+            textVolume: 'full',
+            outputLang: 'kaz',
+            options: {
+                optCharacters: false,
+                optNumbered: true,
+                optArrows: true,
+                optPrint: true,
+                optTeacherGuide: true,
+                optStudentGuide: true
+            }
+        }
+    };
+
+    // Mapping for style names and descriptive enhancements
+    const styleDescriptions = {
+        minimalist: "Minimalist Educational — ақ фон, таза типографика, 2–3 түс палитрасы қолданылсын.",
+        pixar: "Pixar Style — ашық түстер, көлемді 3D кейіпкерлер, тереңдік және эмоциялар.",
+        disney: "Disney Style — жұмсақ пастельді түстер, классикалық 2D ертегі стилі мен эстетикасы.",
+        flat: "Flat Illustration — заманауи тегіс иллюстрация, айқын жиектер, көлеңкесіз стиль.",
+        cartoon: "Cartoon — көңілді мультфильмдік стиль, қалың сызықтар, экспрессивті эмоциялар.",
+        comic: "Comic Book — комикс стилі, драмалық кадрлар, сөйлесу бұлттары мен реттілік сызықтары.",
+        watercolor: "Watercolor — жұмсақ субояулы ауысулар, нәзік көркем өнер стилі.",
+        realistic: "Realistic — жоғары деңгейлі шынайылық, академиялық немесе фотосурет стилі.",
+        render: "3D Render — кәсіби визуалды 3D модельдеу форматы, жоғары сапа.",
+        isometric: "Isometric — изометриялық 3D проекциялық дизайн (30° бұрыштағы көрініс).",
+        handdrawn: "Hand Drawn — қолмен қарындашпен немесе сиямен салынған эстетикалық нобай.",
+        modern_info: "Modern Infographic — заманауи білім беру инфографикасы, таза белгішелер.",
+        stem: "STEM Educational — техникалық, ғылыми сызбалық стиль, формулалар мен егжей-тегжейлі бөлшектер.",
+        montessori: "Montessori — экологиялық/табиғи материалдардың (ағаш, мата) стилі, тыныш пастельді түстер.",
+        cyberpunk: "Cyberpunk — неонды жарықтар, футуристік қараңғы атмосфера мен кибер-элементтер.",
+        anime: "Anime — классикалық жапондық аниме стилі, динамикалық кадрлар мен жарқын жарықтар."
+    };
+
+    // Mapping for Storyboard types and explanations
+    const storyTypeDescriptions = {
+        story: "Оқиға сториборды (оқиғаны кезекпен суреттейді)",
+        creative: "Шығармашылық тұжырымдама (креативті идеялар мен абстракт заңдылықтарды бейнелейді)",
+        step: "Процесс сториборды (қадамдық кезеңдерді рет-ретімен сипаттайды)",
+        explainer: "Түсіндіру нұсқаулығы (күрделі ұғымдарды визуалды қарапайым тілде түсіндіреді)",
+        comic: "Комикс стиліндегі сюжеттік желі",
+        infographic: "Білім беретін инфографикалық сториборд",
+        character: "Кейіпкер арқылы көрсетілген тарих",
+        compare: "Салыстырмалы кесте/көрініс форматы",
+        timeline: "Хронологиялық сториборд (тарихи немесе уақыт сызығымен байланысқан)",
+        problem: "Проблема → Шешім құрылымына негізделген сценарий"
+    };
+
+    const formatLabels = {
+        a4_portrait: "A4 тік (Portrait) білім беру парағы",
+        a4_landscape: "A4 көлденең (Landscape) сызбасы",
+        reels: "9:16 тік (TikTok/Reels/Телефон форматы) медиа-сториборды",
+        presentation: "16:9 көлденең (Презентация) білім беру слайд-сториборды",
+        instagram: "1:1 шаршы (Instagram форматы) инфографикалық сториборд",
+        social: "4:5 портреттік әлеуметтік желі сториборды",
+        a3_portrait: "A3 үлкен тік форматтағы плакат",
+        a3_landscape: "A3 үлкен көлденең форматтағы баспа сториборды"
+    };
+
+    const gradeLabels = {
+        preschool: "Мектепалды даярлық (5–6 жас)",
+        primary: "Бастауыш сынып (1–4 сынып)",
+        middle_5_6: "Орта буын (5–6 сынып)",
+        middle_7_9: "Орта буын (7–9 сынып)",
+        high: "Жоғары сынып (10–11 сынып)"
+    };
+
+    const textVolumeDescriptions = {
+        very_short: "әр кадрда тек 1-2 кілт сөз немесе негізгі термин ғана болсын.",
+        short: "әр кадрда 1–2 қысқа түсіндірме сөйлем болсын.",
+        medium: "әр кадрда 2-3 сөйлемнен тұратын түсіндірме мәтін болсын.",
+        full: "әр кадр бойынша толық мәлімет, сипаттама және қадамның маңызы толығырақ жазылсын."
+    };
+
+    const languageLabels = {
+        kaz: "қазақ",
+        rus: "орыс",
+        eng: "ағылшын"
+    };
+
+    // Topic frame templates for interactive Mockup Tab 2
+    // Smart builder generator when users search standard topics
+    const defaultTopicFrames = {
+        "шығарманың композициялық құрылымы": [
+            { title: "Сюжеттің басталуы", desc: "Шығармадағы оқиға орны, уақыты және негізгі кейіпкерлерді таныстыру (Экспозиция)." },
+            { title: "Оқиғаның байланысы", desc: "Негізгі сюжеттік желінің немесе кейіпкерлер арасындағы алғашқы шиеленістің басталуы." },
+            { title: "Әрекеттердің дамуы", desc: "Оқиғаның біртіндеп күрделенуі, кейіпкерлердің мақсаттары мен кедергілері." },
+            { title: "Шарықтау шегі", desc: "Шығарманың ең жоғары шиеленіскен сәті, шешуші қақтығыс кезеңі (Кульминация)." },
+            { title: "Оқиғаның шешілуі", desc: "Қайшылықтар мен мәселелердің шешілу жолдарының анықталуы." },
+            { title: "Шығарма қорытындысы", desc: "Оқиғаның аяқталуы, шығарманың негізгі идеясы мен тәрбиелік маңызы." }
+        ],
+        "ұлы жібек жолы": [
+            { title: "Керуеннің шығуы", desc: "Қытайдан жібек тиелген керуен сапарға аттанады." },
+            { title: "Шөл даладан өту", desc: "Ауыр табиғи жағдайларды еңсеру, түйелер керуені." },
+            { title: "Отырар қаласы", desc: "Қазақстан аумағындағы ірі сауда орталығына тоқтау." },
+            { title: "Тавар алмасу", desc: "Жібек, қыш ыдыстар мен терілерді айырбастау сәті." },
+            { title: "Мәдениеттер тоғысы", desc: "Әртүрлі ел өкілдерінің діні мен білімін бөлісуі." },
+            { title: "Еуропаға жету", desc: "Жібек өнімдерінің Рим мен Византияға жеткізілуі." },
+            { title: "Жолдың қауіпсіздігі", desc: "Керуенді күзетуші жауынгерлердің қызметі." },
+            { title: "Тарихи маңызы", desc: "Батыс пен Шығысты біріктірген жаһандық сауда жолы." }
+        ],
+        "септік жалғауларының жүйесі": [
+            { title: "Атау септік", desc: "Кім? Не? сұрақтарына жауап береді, сөздің бастапқы негізгі формасы." },
+            { title: "Ілік септік", desc: "Кімнің? Ненің? сұрақтарына жауап береді, тиістілік мағынасын білдіреді (-ның/-нің, -дың/-дің)." },
+            { title: "Барыс септік", desc: "Кімге? Неге? Қайда? сұрақтарымен бағыт пен мақсатты білдіреді (-ға/-ге, -қа/-ке)." },
+            { title: "Табыс септік", desc: "Кімді? Нені? сұрақтарымен іс-әрекеттің тікелей нысанын анықтайды (-ны/-ні, -ды/-ді)." },
+            { title: "Басқа септіктер", desc: "Жатыс (-да/-де), Шығыс (-нан/-нен), Көмектес (-пен/-мен) септіктерінің мағыналарын көрсету." }
+        ],
+        "мәтіннен негізгі ақпарат пен жанама ақпаратты ажырату": [
+            { title: "Мәтінді шолу", desc: "Оқушы мәтінмен танысып, оның негізгі тақырыбы мен мазмұнын белгілейді." },
+            { title: "Түйінді сөздерді табу", desc: "Мәтінде жиі кездесетін және негізгі мағыналық жүк арқалаған сөздерді теріп жазу." },
+            { title: "Негізгі ақпаратты анықтау", desc: "Автордың жеткізгісі келген басты идеясы мен маңызды фактілерін тұжырымдау." },
+            { title: "Жанама ақпаратты бөлектеу", desc: "Негізгі ойды растауға арналған қосымша фактілерді, мысалдар мен сипаттамаларды ажырату." }
+        ]
+    };
+
+    let activeTab = 'prompt';
+
+    function init() {
+        // Render initial dynamic icons
+        lucide.createIcons();
+        generatePrompt();
+    }
+
+    // Toggle light / dark theme
+    function toggleTheme() {
+        const html = document.documentElement;
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        } else {
+            html.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    // Sync theme settings with system settings
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+
+    // Tab switching controller
+    function switchTab(tab) {
+        activeTab = tab;
+        const btnPrompt = document.getElementById('tabBtnPrompt');
+        const btnVisual = document.getElementById('tabBtnVisual');
+        const contentPrompt = document.getElementById('tabContentPrompt');
+        const contentVisual = document.getElementById('tabContentVisual');
+
+        if (tab === 'prompt') {
+            btnPrompt.className = "px-4 py-3.5 text-sm font-semibold border-b-2 border-brand-600 text-brand-600 dark:text-brand-400 flex items-center space-x-2 transition-all-300";
+            btnVisual.className = "px-4 py-3.5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center space-x-2 transition-all-300";
+            contentPrompt.classList.remove('hidden');
+            contentVisual.classList.add('hidden');
+        } else {
+            btnPrompt.className = "px-4 py-3.5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center space-x-2 transition-all-300";
+            btnVisual.className = "px-4 py-3.5 text-sm font-semibold border-b-2 border-brand-600 text-brand-600 dark:text-brand-400 flex items-center space-x-2 transition-all-300";
+            contentPrompt.classList.add('hidden');
+            contentVisual.classList.remove('hidden');
+            renderVisualStoryboardMock();
+        }
+    }
+
+    // Dynamic selection change updates Custom Subject field
+    function handleSubjectChange() {
+        const select = document.getElementById('subject');
+        const customInput = document.getElementById('customSubjectInput');
+        if (select.value === 'custom') {
+            customInput.classList.remove('hidden');
+            customInput.focus();
+        } else {
+            customInput.classList.add('hidden');
+        }
+        generatePrompt();
+    }
+
+    // LOAD PRESETS FUNCTION
+    function loadPreset(presetKey) {
+        const config = presets[presetKey];
+        if (!config) return;
+
+        // Set values inside inputs
+        document.getElementById('storyType').value = config.storyType;
+        document.getElementById('visualStyle').value = config.visualStyle;
+        document.getElementById('format').value = config.format;
+        
+        const subjectSelect = document.getElementById('subject');
+        if (['Қазақ тілі', 'Әдебиет', 'Оқу сауаттылығы', 'Дүниетану', 'Тарих', 'География', 'Биология', 'Химия', 'Информатика', 'Ағылшын тілі'].includes(config.subject)) {
+            subjectSelect.value = config.subject;
+            document.getElementById('customSubjectInput').classList.add('hidden');
+        } else {
+            subjectSelect.value = 'custom';
+            document.getElementById('customSubjectInput').value = config.subject;
+            document.getElementById('customSubjectInput').classList.remove('hidden');
+        }
+
+        document.getElementById('topicInput').value = config.topic;
+        document.getElementById('grade').value = config.grade;
+        document.getElementById('framesCount').value = config.framesCount;
+        document.getElementById('textVolume').value = config.textVolume;
+        document.getElementById('outputLang').value = config.outputLang;
+
+        // Apply options checkboxes
+        document.getElementById('optCharacters').checked = config.options.optCharacters;
+        document.getElementById('optNumbered').checked = config.options.optNumbered;
+        document.getElementById('optArrows').checked = config.options.optArrows;
+        document.getElementById('optPrint').checked = config.options.optPrint;
+        document.getElementById('optTeacherGuide').checked = config.options.optTeacherGuide;
+        document.getElementById('optStudentGuide').checked = config.options.optStudentGuide;
+
+        // Regenerate prompt and show feedback
+        generatePrompt();
+        if (activeTab === 'visual') {
+            renderVisualStoryboardMock();
+        }
+        showToast("Тақырып шаблоны сәтті жүктелді!");
+    }
+
+    // CORE PROMPT BUILDER ALGORITHM
+    function generatePrompt() {
+        // Collect current state of form fields
+        const storyType = document.getElementById('storyType').value;
+        const visualStyle = document.getElementById('visualStyle').value;
+        const format = document.getElementById('format').value;
+        
+        let subject = document.getElementById('subject').value;
+        if (subject === 'custom') {
+            subject = document.getElementById('customSubjectInput').value || "Арнайы пән";
+        }
+
+        const topic = document.getElementById('topicInput').value || "Тақырыпсыз";
+        const grade = document.getElementById('grade').value;
+        const framesCount = parseInt(document.getElementById('framesCount').value);
+        const textVolume = document.getElementById('textVolume').value;
+        const outputLang = document.getElementById('outputLang').value;
+        const engine = document.getElementById('engineSelector').value;
+
+        // Read dynamic checkboxes
+        const optCharacters = document.getElementById('optCharacters').checked;
+        const optNumbered = document.getElementById('optNumbered').checked;
+        const optArrows = document.getElementById('optArrows').checked;
+        const optPrint = document.getElementById('optPrint').checked;
+        const optTeacherGuide = document.getElementById('optTeacherGuide').checked;
+        const optStudentGuide = document.getElementById('optStudentGuide').checked;
+
+        // Core translation strings based on fields
+        const storyDesc = storyTypeDescriptions[storyType];
+        const styleDesc = styleDescriptions[visualStyle];
+        const formatDesc = formatLabels[format];
+        const gradeDesc = gradeLabels[grade];
+        const textDesc = textVolumeDescriptions[textVolume];
+        const langDesc = languageLabels[outputLang];
+
+        // Frame lists dynamically compiled
+        let framesPromptFragment = "";
+        const normTopic = topic.toLowerCase().trim();
+        
+        if (defaultTopicFrames[normTopic]) {
+            const list = defaultTopicFrames[normTopic];
+            framesPromptFragment = "\nСторибордтың ұсынылатын реттілік қадамдары:\n";
+            for (let i = 0; i < Math.min(framesCount, list.length); i++) {
+                framesPromptFragment += `${i+1}. ${list[i].title} — ${list[i].desc}\n`;
+            }
+            if (framesCount > list.length) {
+                for (let i = list.length; i < framesCount; i++) {
+                    framesPromptFragment += `${i+1}. Қосымша бекітуші кадр — Тақырыпты қорытындылау.\n`;
+                }
+            }
+        } else {
+            framesPromptFragment = `\nӘр кадр логикалық ретпен орналассын және бір-бірімен байланысқан болсын. Сторибордқа арналған ${framesCount} негізгі кадрдың әрқайсысын нақты сипаттаңыз.\n`;
+        }
+
+        // Additional specifications based on user preferences
+        let additionalDesignInstructions = "";
+        if (optCharacters) {
+            additionalDesignInstructions += "— Сторибордта оқушыға бағыт беретін тұрақты басты кейіпкер болсын (мысалы, білімді кейіпкер немесе зерттеуші оқушы). Оның эмоциясы мен қимылы оқиға барысына сәйкес өзгеріп отыруы тиіс.\n";
+        }
+        if (optNumbered) {
+            additionalDesignInstructions += "— Кадрлар арасында анық визуалды байланыс болуы үшін оларды реттік нөмірмен белгілеңіз.\n";
+        }
+        if (optArrows) {
+            additionalDesignInstructions += "— Кадрлар арасында логикалық байланыс көрсеткіштері (бағыттаушы сызықтар немесе стрелкалар) қолданылсын.\n";
+        }
+        if (optPrint) {
+            additionalDesignInstructions += "— Көрнекілік баспаға дайын жоғары сапада (print-ready, CMYK, 300 DPI) безендірілсін.\n";
+        }
+        if (optTeacherGuide) {
+            additionalDesignInstructions += "— Сторибордтың соңында мұғалімге арналған осы материалды сабақта тиімді қолданудың қысқаша әдістемелік нұсқаулығы қосылсын.\n";
+        }
+        if (optStudentGuide) {
+            additionalDesignInstructions += "— Түсіндіру соңында оқушының тақырыпты меңгеру деңгейін тексеруге арналған 1-2 сұрақ немесе шағын визуалды тапсырма қосылсын.\n";
+        }
+
+        // Midjourney optimization formatting block
+        let systemPromptHeader = "";
+        let engineFooter = "";
+        if (engine === 'midjourney') {
+            systemPromptHeader = `[Midjourney Prompt Format: Educational Multi-panel Graphic Design Grid]\n`;
+            
+            // Format aspect ratios for Midjourney syntax
+            let aspect = "--ar 1:1";
+            if (format === 'presentation' || format === 'a4_landscape' || format === 'a3_landscape') aspect = "--ar 16:9";
+            else if (format === 'reels' || format === 'a4_portrait' || format === 'a3_portrait') aspect = "--ar 9:16";
+            else if (format === 'social') aspect = "--ar 4:5";
+
+            engineFooter = `\n[Midjourney Engine Parameters]:\neducational infographic sequence, multi-panel storyboard grid, clear borders, --v 6.0 ${aspect} --style raw --stylize 250`;
+        } else if (engine === 'dalle') {
+            systemPromptHeader = `[DALL-E 3 Optimization Mode: Highly structured educational layout]\n`;
+        }
+
+        // Assemble the final Master Prompt
+        const promptText = `${systemPromptHeader}${formatDesc}.
+Визуалды стиль: ${styleDesc}.
+Тақырып: ${topic}
+Пән: ${subject} | Деңгей: ${gradeDesc}
+Сториборд түрі: ${storyDesc}.
+Кадр саны: ${framesCount} кадр.
+${framesPromptFragment}
+Мәтін көлемі: ${textDesc}
+Барлық мәтін ${langDesc} тілінде жазылсын.
+
+Дизайн нұсқаулары:
+— Таза визуалды иерархия.
+— Оқушыға бірінші көзқарастан түсінікті болуы керек.
+— Кейіпкерлер мен барлық иллюстрациялар бір стильде орындалсын.
+— Білім беру мақсатына сәйкес кәсіби композиция қолданылсын.
+— Заманауи, тартымды және оқушы қызығушылығын арттыратын көркем безендіру қолданылсын.
+— Орфографиялық және грамматикалық қателер болмауы тиіс.
+— Барлық мәтін анық оқылатын қаріппен берілсін.
+${additionalDesignInstructions}${engineFooter}`;
+
+        // Inject generated prompt to the HTML structure
+        const container = document.getElementById('promptContainer');
+        container.textContent = promptText;
+
+        // Perform statistical calculation
+        document.getElementById('charCount').textContent = promptText.length;
+        document.getElementById('wordCount').textContent = promptText.split(/\s+/).filter(Boolean).length;
+    }
+
+    // Render dynamic visual preview in Tab 2
+    function renderVisualStoryboardMock() {
+        const framesCount = parseInt(document.getElementById('framesCount').value);
+        const topic = document.getElementById('topicInput').value || "Тақырып";
+        const visualGrid = document.getElementById('visualGrid');
+        const visualStyle = document.getElementById('visualStyle').value;
+        const normTopic = topic.toLowerCase().trim();
+
+        // Clear previous children
+        visualGrid.innerHTML = "";
+
+        // Determine if preset is matched or create procedural steps
+        let stepsList = [];
+        if (defaultTopicFrames[normTopic]) {
+            stepsList = defaultTopicFrames[normTopic];
+        } else {
+            // General topic - generate generalized steps dynamically
+            stepsList = [
+                { title: "Кіріспе / Мәселе", desc: "Тақырыптың бірінші маңызды ұғымымен немесе сұрақпен таныстыру." },
+                { title: "Теориялық негіз", desc: "Құбылыстың немесе ереженің негізгі заңдылықтарын ашу." },
+                { title: "Практикалық мысал", desc: "Тақырыпты күнделікті өмірден алынған мысалмен байланыстыру." },
+                { title: "Әрекет / Процесс", desc: "Тақырыптың өзгеру, даму немесе орындалу динамикасы." },
+                { title: "Нәтиже / Шешім", desc: "Құбылыстың соңғы фазасы немесе есептің шешуі." },
+                { title: "Қорытындылау", desc: "Жалпы білімді жүйелеу мен оқушының есінде сақтау сәті." }
+            ];
+        }
+
+        // Build frames mockup dynamically
+        for (let i = 0; i < framesCount; i++) {
+            const stepIndex = i % stepsList.length;
+            const currentStep = stepsList[stepIndex];
+            
+            const card = document.createElement('div');
+            card.className = "bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm relative overflow-hidden flex flex-col justify-between h-48 group hover:border-brand-500 dark:hover:border-brand-500 transition-all-300";
+            
+            card.innerHTML = `
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-xs font-bold text-brand-600 bg-brand-50 dark:bg-brand-950 px-2 py-1 rounded">Кадр ${i + 1}</span>
+                        <span class="text-[10px] text-slate-400 font-mono">Стиль: ${visualStyle}</span>
+                    </div>
+                    <h5 class="text-xs font-bold text-slate-900 dark:text-white mt-1 group-hover:text-brand-600 transition-colors">${i+1}. ${currentStep.title}</h5>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 line-clamp-3">${currentStep.desc}</p>
+                </div>
+                <!-- Mini simulated SVG design inside the frame -->
+                <div class="h-10 mt-2 bg-slate-50 dark:bg-slate-900/60 rounded border border-dashed border-slate-200 dark:border-slate-700 flex items-center justify-center text-[9px] text-slate-400 font-medium">
+                    <i data-lucide="image" class="w-3.5 h-3.5 mr-1 text-slate-400"></i> Сұлбалық сурет
+                </div>
+            `;
+            visualGrid.appendChild(card);
+        }
+        
+        // Re-trigger Lucide library to render inner dynamic icons in mockup
+        lucide.createIcons();
+    }
+
+    // Reliable cross-browser clipboard controller using fallback method
+    function copyPrompt() {
+        const text = document.getElementById('promptContainer').textContent;
+        
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        document.body.appendChild(textarea);
+        textarea.select();
+        
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                showToast("Промпт алмасу буферіне сәтті көшірілді!");
+                
+                // Visual feedback in the button
+                const btnText = document.getElementById('copyText');
+                const btn = document.getElementById('copyBtn');
+                btnText.textContent = "Көшірілді!";
+                btn.classList.replace('bg-brand-600', 'bg-emerald-600');
+                btn.classList.replace('hover:bg-brand-700', 'hover:bg-emerald-700');
+                
+                setTimeout(() => {
+                    btnText.textContent = "Көшіріп алу";
+                    btn.classList.replace('bg-emerald-600', 'bg-brand-600');
+                    btn.classList.replace('hover:bg-emerald-700', 'hover:bg-brand-700');
+                }, 2000);
+            } else {
+                showToast("Көшіру сәтсіз аяқталды. Қайталап көріңіз.");
+            }
+        } catch (err) {
+            showToast("Қателік орын алды. Қолмен таңдап көшіріңіз.");
+        }
+        
+        document.body.removeChild(textarea);
+    }
+
+    // Download Prompt as a clean text file
+    function downloadPrompt() {
+        const text = document.getElementById('promptContainer').textContent;
+        const topic = document.getElementById('topicInput').value || "storyboard";
+        const sanitizedFilename = topic.toLowerCase().replace(/[^a-z0-9а-яөүһіәғқұү]/gi, '_') + "_prompt.txt";
+        
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const element = document.createElement('a');
+        element.href = URL.createObjectURL(blob);
+        element.download = sanitizedFilename;
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+        
+        showToast("Промпт файлы жүктелуде...");
+    }
+
+    // UI Toast Notification Manager
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toastMessage');
+        toastMsg.textContent = msg;
+        
+        toast.classList.remove('translate-y-20', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+        
+        setTimeout(() => {
+            toast.classList.remove('translate-y-0', 'opacity-100');
+            toast.classList.add('translate-y-20', 'opacity-0');
+        }, 3000);
+    }
+
+    // Start code on load completion
+    window.onload = function() {
+        init();
+    }
+</script>
+</body>
+</html>
